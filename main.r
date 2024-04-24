@@ -1,26 +1,7 @@
-# pacakge list
-# Imports:
-#   rlang (>= 0.4.9),
-# 	dplyr (>= 1.0.4),
-# 	tibble (>= 3.0.4),
-# 	xml2 (>= 1.3.2),
-# 	purrr (>= 0.3.4),
-# 	stringr (>= 1.4.0),
-# 	stringi (>= 1.7.12),
-# 	docxtractr (>= 0.6.5),
-# 	doRNG (>= 1.8.2),
-# 	foreach (>= 1.5.2),
-# 	doSNOW (>= 1.0.20),
-# 	quanteda (>= 3.2.4),
-# 	tidyr (>= 1.3.0),
-# 	doParallel (>= 1.0.17),
-# 	rvest (>= 1.0.3),
-# 	lubridate (>= 1.9.2),
-# 	crayon (>= 1.5.2),
-# 	cld2 (>= 1.2.4)
-library(foreach)
-library(doParallel)
-library(tidyverse)
+# install the package and document so that the functions are also available in
+# foreach (once and after changes to parse_votes() or functions it calls)
+devtools::document()
+devtools::install()
 
 data_dir <- sprintf("%s/", getwd())
 overwrite <- FALSE
@@ -31,18 +12,8 @@ cores <- 1
 docx_dir <- sprintf("%sraw/", data_dir)
 libre_office_path <- "C:/Program Files/LibreOffice/program/soffice.exe"
 
-source("utils.R")
-source("fill_in_cells.R")
-source("parse_votes.R")
-source("parse_vote_results.R")
-source("search_votes.R")
-source("check_votes_meta.R")
-source("chk_date_tally_consistency.R")
-source("clean_votes_01.R")
-source("clean_votes_02.R")
-source("clean_votes_03.R")
-source("split_vote_function.R")
-source("add_rcv_type_var.R")
+#  load all functions
+devtools::load_all()
 
 parse_votes(
   data_dir = data_dir,

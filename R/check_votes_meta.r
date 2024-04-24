@@ -1,3 +1,4 @@
+#' @export
 check_votes_meta <- function(y) {
 
   # unlist lists

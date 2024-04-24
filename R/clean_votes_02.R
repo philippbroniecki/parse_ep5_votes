@@ -47,7 +47,6 @@ clean_votes_02 <- function(data_dir, verbose = TRUE) {
 
   # loop over rows of votes
   split_votes <- lapply(X = seq_len(n_grps), FUN = function(y) {
-    message(y)
 
     # subset votes to current session
     c_votes <- dplyr::slice(.data = votes, which(grp_idx == y)) %>%

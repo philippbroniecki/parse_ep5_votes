@@ -117,7 +117,7 @@ search_votes.doc.old <- function(x, data_dir, verbose, ...) { # nolint
   # current date
   #c_date <- dplyr::pull(.data = x, var = date)
   message("date not implemented without minutes")
-  c_date <- "not implemented, no minutes"
+  c_date <- x
 
   # voting meta data
   votes_meta <- dplyr::tibble(
@@ -273,8 +273,8 @@ search_votes.doc.old <- function(x, data_dir, verbose, ...) { # nolint
           # both 'Subject' and 'RCV etc.' detected
           sum(is_subject, is_rcv_etc) == 2
         }) %>%
-          unlist %>%
-          which
+          unlist() %>%
+          which()
 
         # check whether the phrases 'Subject' or 'RCVetc' are in the table
         # heading
@@ -476,8 +476,8 @@ search_votes.doc.old <- function(x, data_dir, verbose, ...) { # nolint
               any(stringr::str_detect(string = y, pattern = "([Ss]ubject)"),
                   na.rm = TRUE)
             }) %>%
-              unlist %>%
-              which
+              unlist() %>%
+              which()
 
             # remove rows without content
             if (length(names_row) > 0) {

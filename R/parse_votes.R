@@ -12,6 +12,8 @@
 #' @param end_date The end date for filtering the vote data. A character string.
 #' @param cores The number of CPU cores to use for parallel processing.
 #' An integer.
+#' @importFrom rlang .data
+#' @importFrom dplyr "%>%"
 #' @return Writes parsed vote data to the parsed/votes.RData file, votes_meta
 #' data to the parsed/votes_meta.RData file, and vote requests data to the
 #' parsed/vote_requests.RData file.
@@ -51,17 +53,14 @@ parse_votes <- function(
   progress <- function(n) utils::setTxtProgressBar(pb, n)
   opts <- list(progress = progress)
 
-  # Get all objects in the parent environment
-  all_objects <- ls(parent.frame())
-
-  # Find which ones are functions
-  f_exp <- all_objects[sapply(
-    all_objects, function(x) is.function(get(x, envir = parent.frame()))
-  )]
-
   # loop over votes
   votes <- foreach::foreach(
-    x = seq_along(files_actual), .options.snow = opts, .export = f_exp
+    x = seq_along(files_actual), .options.snow = opts, .export = c(
+      "parse_vote_results", "search_votes", "fill_in_cells", "t_pos_fun",
+      "search_descriptions", "doc_table", "clean_title_position",
+      "clean_column_names", "character_date_format", "check_votes_meta",
+      "chk_date_tally_consistency", "extract_title_doc_old"
+    ), packages = c("EP5")
   ) %dopar% {
 
     `%>%` <- dplyr::`%>%`
@@ -72,7 +71,7 @@ parse_votes <- function(
 
     # parse vote results
     votes_out <- try(
-      expr = parse_vote_results(
+      expr = EP5::parse_vote_results(
         x = x,
         data_dir = data_dir,
         verbose = verbose
